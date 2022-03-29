@@ -1,0 +1,158 @@
+<html>
+    <!-- HEADER -->
+    <head>
+        <title>Demo page of "Fast Grad-TTS: Towards Efficient Diffusion-Based Speech Generation on CPU" (Interspeech 2022 review)</title>
+        <link rel="icon" href="resources/img/icon.png">
+
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/text.css">
+        <link rel="stylesheet" href="css/media.css">
+        <link rel="stylesheet" href="css/select.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100&display=swap" rel="stylesheet">
+    </head>
+
+    <!-- MAIN BODY -->
+    <body>
+        <div class="main">
+            <!-- HEADER -->
+            <br>
+            <h1 class="wrapper">Fast Grad-TTS: Towards Efficient Diffusion-Based Speech Generation on CPU</h1>
+            <p class="wrapper">Under review as a conference paper at Interspeech 2022, <a href="">pdf</a> (code will be made publicly available shortly)</p>
+            
+            <!-- ABSTRACT -->
+            <br><br>
+            <h2 class="wrapper">Abstract</h2>
+            <p class="wrapper">Recently, score-based diffusion probabilistic modeling has shown encouraging results in various tasks outperforming other popular generative modeling frameworks in terms of quality. However, to unlock its potential and make diffusion models feasible from the practical point of view, special efforts should be made to enable more efficient iterative sampling procedure on CPU devices. In this paper, we focus on applying the most promising techniques from recent literature on diffusion modeling to Grad-TTS, a diffusion-based text-to-speech system, in order to accelerate it. We compare various reverse diffusion sampling schemes, the technique of progressive distillation, GAN-based diffusion modeling and score-based generative modeling in latent space. Experimental results demonstrate that it is possible to speed Grad-TTS up to 4.5 times compared to vanilla Grad-TTS and achieve real time factor 0.15 on CPU while keeping synthesis quality competitive with that of conventional text-to-speech baselines.</p>
+            
+            <!-- MOS AUDIO SAMPLES -->
+            <br><br>
+            <h2 class="wrapper">Examples from MOS evaluation</h2>
+            <p class="wrapper"><b>Note:</b> <a href="https://github.com/jik876/hifi-gan">HiFi-GAN</a> is used as vocoder. Also, listen to the audios using headphones for better experience.</p>
+            <table class="wrapper" style="margin-left:auto;margin-right:auto;">
+                <tbody>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap><b>Text:</b></td>
+                    <td><span style="font-style: italic; font-weight: 1000;">In Fort Worth, there occurred a breach of discipline by some members of the Secret Service who were officially traveling with the President.</span></td>
+                    <td><span style="font-style: italic; font-weight: 1000;">The Secret Service had received from the FBI some nine thousand reports on members of the Communist Party.</span></td>
+                    <td><span style="font-style: italic; font-weight: 1000;">Might have been more alert in the Dallas motorcade if they had retired promptly in Fort Worth.</span></td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap>Ground truth</td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/02.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/12.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/01.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap>Grad-TTS-Vanilla-10</td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-vanilla_02.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-vanilla_12.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-vanilla_01.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap>Grad-TTS-ML-4</td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-ml-solver_02.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-ml-solver_12.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-ml-solver_01.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap>Grad-TTS-Distilled-2</td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-distilled_02.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-distilled_12.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-distilled_01.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap>GAN-DPM-4</td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gan_02.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gan_12.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gan_01.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap>LSGM-NVAE-ML-4</td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/lsgm-nvae-ml-4_02.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/lsgm-nvae-ml-4_12.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/lsgm-nvae-ml-4_01.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap><a href="https://github.com/jaywalnut310/glow-tts">Glow-TTS</a></td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/glow-tts_02.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/glow-tts_12.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/glow-tts_01.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap><a href="https://github.com/ming024/FastSpeech2">FastSpeech2</a></td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/fastspeech2_02.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/fastspeech2_12.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/fastspeech2_01.wav"> </audio> </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <table class="wrapper" style="margin-left:auto;margin-right:auto;">
+                <tbody>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap><b>Text:</b></td>
+                    <td><span style="font-style: italic; font-weight: 1000;">It has also used other Federal law enforcement agents during Presidential visits to cities in which such agents are stationed.</span></td>
+                    <td><span style="font-style: italic; font-weight: 1000;">Three of these agents occupied positions on the running boards of the car, and the fourth was seated in the car.</span></td>
+                    <td><span style="font-style: italic; font-weight: 1000;">A formal and thorough description of the responsibilities of the advance agent is now in preparation by the Service.</span></td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap>Ground truth</td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/17.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/05.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/15.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap>Grad-TTS-Vanilla-10</td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-vanilla_17.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-vanilla_05.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-vanilla_15.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap>Grad-TTS-ML-4</td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-ml-solver_17.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-ml-solver_05.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-ml-solver_15.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap>Grad-TTS-Distilled-2</td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-distilled_17.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-distilled_05.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gradtts-distilled_15.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap>GAN-DPM-4</td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gan_17.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gan_05.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/gan_15.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap>LSGM-NVAE-ML-4</td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/lsgm-nvae-ml-4_17.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/lsgm-nvae-ml-4_05.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/lsgm-nvae-ml-4_15.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap><a href="https://github.com/jaywalnut310/glow-tts">Glow-TTS</a></td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/glow-tts_17.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/glow-tts_05.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/glow-tts_15.wav"> </audio> </td>
+                    </tr>
+                    <tr>
+                    <td style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" nowrap><a href="https://github.com/ming024/FastSpeech2">FastSpeech2</a></td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/fastspeech2_17.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/fastspeech2_05.wav"> </audio> </td>
+                    <td align="center"> <audio controls=""> <source src="assets/mos/fastspeech2_15.wav"> </audio> </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br><br><br>
+            <p class="wrapper" style="text-align: center; font-weight: 300;">March 2022</p>
+            <br><br><br>
+        </div>
+        
+    </body>
+</html>
